@@ -7,6 +7,7 @@ class Platform {
 
         this.posX = posX;
         this.posY = posY;
+        this.good = true
         
     }
     draw() {

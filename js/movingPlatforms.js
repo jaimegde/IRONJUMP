@@ -9,6 +9,7 @@ class movingPlatform {
         this.posY = posY;
         this.vel = 3
         this.canvasWidth = canvasWidth
+        this.good = true
     }
     draw() {
         this.move()

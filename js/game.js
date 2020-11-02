@@ -23,8 +23,13 @@ const Game = {
         this.ctx = this.canvas.getContext('2d')
         this.setDimensions()
         
+        this.homePage()
+        document.onkeypress = e => {
+            if (e.key === this.keys.space) {
+                this.start()
+            } 
+        }
         
-        this.start()
     },
     setDimensions() {
         this.canvasSize.w = 500
@@ -35,8 +40,7 @@ const Game = {
     
     start() {
         this.restart()
-        this.generatePlatform()
-        this.generateEnemy() 
+        this.generatePlatform() 
         this.generatePlayer()
         this.interval = setInterval(() => {
             this.clearScreen()
@@ -95,27 +99,19 @@ const Game = {
             if (elm.posY > this.canvasSize.h) {
                 this.platforms.pop()
                 let newPlatPosX = Math.floor(Math.random() * 350)
-                let randomWhitePlat = Math.floor(Math.random()*this.difficulty)
-                if (randomWhitePlat === 3 && this.scoreFloor > 150) {
+                let randomPlat = Math.floor(Math.random()*this.difficulty)
+                if (randomPlat === 3 && this.scoreFloor > 150) {
                     let newPlat = new movingPlatform(this.ctx, newPlatPosX, 25, this.canvasSize.w)
                     this.platforms.unshift(newPlat)
                 }else {
                     let newPlat = new Platform(this.ctx, newPlatPosX, 25)
                     this.platforms.unshift(newPlat)
                 }
-            }
-        })
-        this.enemies.forEach(elm => {
-            elm.posY += this.platYchange;
-            if (elm.posY > this.canvasSize.h) {
-                this.enemies.pop()
-                let newPlatPosX = Math.floor(Math.random() * 350)
-                let randomWhitePlat = Math.floor(Math.random()*this.difficulty)
-                if (randomWhitePlat === 4 ) {
-                    let newPlat = new Enemy(this.ctx, newPlatPosX, 40, this.canvasSize.w)
-                    this.enemies.unshift(newPlat)
+                if (randomPlat === 4 && this.scoreFloor > 300) {
+                    let newPlat = new Enemy(this.ctx, newPlatPosX, 0, this.canvasSize.w)
+                    this.platforms.unshift(newPlat)
+
                 }
-                
             }
         })
     },
@@ -131,11 +127,25 @@ const Game = {
                 this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
                 this.player.playerPos.y + this.player.playerSize.w < elm.posY + elm.height &&
                 this.player.playerPos.y + this.player.playerSize.w > elm.posY &&
-                this.player.playerVel.y > 0
-    ) {
-      this.player.playerVel.y = -10;
-    }
-    })
+                this.player.playerVel.y > 0 && elm.good
+                ) {
+                this.player.playerVel.y = -10;
+            } else if((
+                this.player.playerPos.x < elm.posX + elm.width &&
+                this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
+                this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
+                this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
+                this.player.playerVel.y > 0 && !elm.good) ||
+                (this.player.playerPos.x < elm.posX + elm.width &&
+                this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
+                this.player.playerPos.y <= elm.posY + elm.height && 
+                this.player.playerPos.y >= elm.posY &&
+                this.player.playerVel.y < 0 && !elm.good))
+             {
+                this.gameOver()
+                }
+            })
+        
     },
 
     clearScreen() {
@@ -157,7 +167,6 @@ const Game = {
         this.ctx.fillText(`Highscore: ${this.highScore}`, this.canvasSize.w-185, 28)
     },
     gameOver() {
-        
         if (this.highScore < this.scoreFloor) {
             this.highScore = this.scoreFloor
         }
@@ -170,6 +179,13 @@ const Game = {
                 this.start()
             } 
         }
+    },
+    homePage() {
+        this.ctx.font = "30px Sans-serif" 
+        this.ctx.fillStyle = "black";
+        this.ctx.fillText('To start press SPACE', 60, this.canvasSize.h / 2)
+        this.ctx.font = "50px Sans-serif" 
+        this.ctx.fillText('IronJump', 100, 100)
     },
     restart() { 
         this.platforms = []

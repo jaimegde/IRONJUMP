@@ -9,6 +9,7 @@ class Enemy {
         this.posY = posY;
         this.vel = 5
         this.canvasWidth = canvasWidth
+        this.good = false
     }
     draw() {
         this.move()
