@@ -11,6 +11,7 @@ const Game = {
     score: 0,
     scoreFloor: 0,
     highScore: 0,
+    background: undefined,
     keys: {
         space: ' '
     },
@@ -40,6 +41,7 @@ const Game = {
     
     start() {
         this.restart()
+        this.generateBackground()
         this.generatePlatform() 
         this.generatePlayer()
         this.interval = setInterval(() => {
@@ -52,6 +54,7 @@ const Game = {
         }, 30)
     },
     drawAll() {
+        this.background.draw()
         this.platforms.forEach(elm => {
             elm.draw()
         });
@@ -120,6 +123,9 @@ const Game = {
         let playerStartingY = this.platforms[this.platforms.length - 1].posY - 50;
         this.player = new Player(this.ctx, playerStartingX, playerStartingY, this.canvasSize.w)
     },
+    generateBackground() {
+        this.background = new Background(this.ctx, this.canvasSize.w, this.canvasSize.h)
+    },
     isCollision() {
         this.platforms.forEach(elm => {
             if (
@@ -162,7 +168,7 @@ const Game = {
     },
     drawText() {
         this.ctx.font = "25px Sans-serif"  
-        this.ctx.fillStyle = "black";
+        this.ctx.fillStyle = "white";
         this.ctx.fillText(`Score: ${this.scoreFloor}`, 20, 28)
         this.ctx.fillText(`Highscore: ${this.highScore}`, this.canvasSize.w-185, 28)
     },
@@ -182,7 +188,7 @@ const Game = {
     },
     homePage() {
         this.ctx.font = "30px Sans-serif" 
-        this.ctx.fillStyle = "black";
+        this.ctx.fillStyle = "white";
         this.ctx.fillText('To start press SPACE', 60, this.canvasSize.h / 2)
         this.ctx.font = "50px Sans-serif" 
         this.ctx.fillText('IronJump', 100, 100)
@@ -194,7 +200,7 @@ const Game = {
     },
     gameOverScreen() {
         this.ctx.font = "30px Sans-serif" 
-        this.ctx.fillStyle = "black";
+        this.ctx.fillStyle = "white";
         this.ctx.fillText(`Score: ${this.scoreFloor}`, 100, 220)
         this.ctx.fillText(`Highscore: ${this.highScore}`, 100, 300)
         this.ctx.fillText('To start again press SPACE', 60, this.canvasSize.h / 2)

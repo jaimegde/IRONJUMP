@@ -2,19 +2,20 @@ class Enemy {
     constructor(ctx, posX, posY, canvasWidth) {
         this.ctx = ctx;
 
-        this.width = 80;
-        this.height = 20;
+        this.width = 45;
+        this.height = 35;
 
         this.posX = posX;
         this.posY = posY;
         this.vel = 5
         this.canvasWidth = canvasWidth
         this.good = false
+        this.image = new Image();
+        this.image.src = 'img/Obj_cube-creature.png';
     }
     draw() {
         this.move()
-        this.ctx.fillStyle = "red";
-        this.ctx.fillRect(this.posX, this.posY, this.width, this.height);
+        this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height);
         
     }
     move() {

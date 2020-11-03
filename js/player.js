@@ -39,9 +39,15 @@ class Player{
             switch (e.key) {
                 case this.keys.left:
                     this.playerPos.x -= this.playerVel.x
+                   /* console.log(`La posición en X: ${this.playerPos.x}
+                    La Velocidad en X: ${this.playerVel.x}
+                    La Velocidad en Y: ${this.playerVel.y}`)*/
                     break;
                 case this.keys.right:
                     this.playerPos.x += this.playerVel.x
+                    /*console.log(`La posición en X: ${this.playerPos.x}
+                    La Velocidad en X: ${this.playerVel.x}
+                    La Velocidad en Y: ${this.playerVel.y}`)*/
                     break;
             }
         });

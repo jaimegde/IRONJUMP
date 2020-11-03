@@ -1,0 +1,259 @@
+
+Charac_F-F1-Jump.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Charac_F-F1-Jump_0
+  rotate: false
+  xy: 2, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_28
+  rotate: false
+  xy: 2, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_29
+  rotate: false
+  xy: 2, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_30
+  rotate: false
+  xy: 2, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_1
+  rotate: false
+  xy: 500, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_2
+  rotate: false
+  xy: 998, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_3
+  rotate: false
+  xy: 1496, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+
+Charac_F-F1-Jump2.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Charac_F-F1-Jump_4
+  rotate: false
+  xy: 2, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_5
+  rotate: false
+  xy: 500, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_6
+  rotate: false
+  xy: 998, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_7
+  rotate: false
+  xy: 1496, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+
+Charac_F-F1-Jump3.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Charac_F-F1-Jump_10
+  rotate: false
+  xy: 998, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_11
+  rotate: false
+  xy: 1496, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_8
+  rotate: false
+  xy: 2, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_9
+  rotate: false
+  xy: 500, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+
+Charac_F-F1-Jump4.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Charac_F-F1-Jump_12
+  rotate: false
+  xy: 2, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_13
+  rotate: false
+  xy: 500, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_14
+  rotate: false
+  xy: 998, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_15
+  rotate: false
+  xy: 1496, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+
+Charac_F-F1-Jump5.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Charac_F-F1-Jump_16
+  rotate: false
+  xy: 2, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_17
+  rotate: false
+  xy: 500, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_18
+  rotate: false
+  xy: 998, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_24
+  rotate: false
+  xy: 998, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_19
+  rotate: false
+  xy: 1496, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_23
+  rotate: false
+  xy: 1496, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+
+Charac_F-F1-Jump6.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Charac_F-F1-Jump_20
+  rotate: false
+  xy: 2, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_22
+  rotate: false
+  xy: 2, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_21
+  rotate: false
+  xy: 500, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_25
+  rotate: false
+  xy: 998, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+Charac_F-F1-Jump_26
+  rotate: false
+  xy: 1496, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1
+
+Charac_F-F1-Jump7.png
+size: 512,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Charac_F-F1-Jump_27
+  rotate: false
+  xy: 2, 2
+  size: 496, 756
+  orig: 496, 756
+  offset: 0, 0
+  index: -1

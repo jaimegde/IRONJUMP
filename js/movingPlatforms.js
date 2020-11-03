@@ -10,11 +10,12 @@ class movingPlatform {
         this.vel = 3
         this.canvasWidth = canvasWidth
         this.good = true
+        this.image = new Image();
+        this.image.src = 'img/PNG/Environment/ground_cake.png';
     }
     draw() {
         this.move()
-        this.ctx.fillStyle = "white";
-        this.ctx.fillRect(this.posX, this.posY, this.width, this.height);
+        this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height);
         
     }
     move() {
