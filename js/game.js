@@ -20,6 +20,8 @@ const Game = {
     enemies: [],
     homepage: undefined,
     letsBegin: false,
+    gameover: undefined,
+    isdead : false,
 
     init(id) {
         this.canvas = document.getElementById(id)
@@ -41,7 +43,7 @@ const Game = {
     
     start() {
         this.restart()
-        this.homePage()
+        !this.letsBegin ? this.homePage() : null
         this.generatePlatform() 
         this.generatePlayer()
         this.interval = setInterval(() => {
@@ -68,14 +70,7 @@ const Game = {
         this.player.draw()
         this.drawText()
     },
-    gameOverPhase(){
-        document.onkeypress = e => {
-            if (e.key === this.keys.space) {
-                return true
-            } 
-        }
-        return false
-    },
+    
     generatePlatform() {
         for (let i = 0; i < this.numOfPlatforms; i++) {
                 let newPlatPosX = Math.floor(Math.random() * 350)
@@ -88,7 +83,7 @@ const Game = {
     
     moveScreen() {
         if (this.player.playerPos.y < this.canvasSize.h /2 +50) {
-            this.platYchange = 4
+            this.platYchange = 4.5
             this.player.playerVel.y += 0.25
             this.score++
             this.scoreFloor = (Math.floor(this.score / 10) * 10)
@@ -122,11 +117,11 @@ const Game = {
     generatePlayer() {
         let playerStartingX = this.platforms[this.platforms.length - 1].posX;
         let playerStartingY = this.platforms[this.platforms.length - 1].posY - 100;
-        this.player = new Player(this.ctx, playerStartingX, playerStartingY, this.canvasSize.w, 'img/boiLeft.png')
+        this.player = new Player(this.ctx, playerStartingX, playerStartingY, this.canvasSize.w, 'img/boiLeft.png', this.isdead)
     },
     isCollision() {
         this.platforms.forEach(elm => {
-            if (
+            if ( !this.isdead &&
                 this.player.playerPos.x < elm.posX + elm.width &&
                 this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
                 this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
@@ -134,19 +129,21 @@ const Game = {
                 this.player.playerVel.y > 0 && elm.good
                 ) {
                 this.player.playerVel.y = -10;
-            } else if((
+            } else if(( 
                 this.player.playerPos.x < elm.posX + elm.width &&
                 this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
                 this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
                 this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
-                this.player.playerVel.y > 0 && !elm.good) ||
+                this.player.playerVel.y > 0 && !elm.good && !this.isdead ) ||
                 (this.player.playerPos.x < elm.posX + elm.width &&
                 this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
                 this.player.playerPos.y <= elm.posY + elm.height && 
                 this.player.playerPos.y >= elm.posY &&
-                this.player.playerVel.y < 0 && !elm.good))
+                this.player.playerVel.y < 0 && !elm.good && !this.isdead))
              {
-                this.gameOver()
+                this.player.isdead = true
+                this.isdead = true
+                this.player.image.src = 'img/deadBoi.png'
                 }
             })
         
@@ -174,12 +171,12 @@ const Game = {
         if (this.highScore < this.scoreFloor) {
             this.highScore = this.scoreFloor
         }
-        clearInterval(this.interval)
-        //this.clearScreen()
         this.gameOverScreen()
-        this.score = 0
+        
         document.onkeypress = e => {
             if (e.key === this.keys.space) {
+                clearInterval(this.interval)
+                this.clearScreen()
                 this.start()
             } 
         }
@@ -188,20 +185,16 @@ const Game = {
         this.homepage = new titlePage(this.ctx, this.canvasSize.w, this.canvasSize.h)
         this.homepage.drawText()
     },
+    
     restart() { 
         this.platforms = []
         this.enemies = []
         this.player = undefined
+        this.score = 0
+        this.scoreFloor = 0
+        this.isdead = false
     },
     gameOverScreen() {
-        this.ctx.fillStyle = "aqua";
-        this.ctx.font = "50px Sans-serif" 
-        this.ctx.fillText('GAME OVER', 100, 100)
-        this.ctx.font = "30px Sans-serif" 
-        this.ctx.fillStyle = "raspberry";
-        this.ctx.fillText(`Score: ${this.scoreFloor}`, 100, 220)
-        this.ctx.fillText(`Highscore: ${this.highScore}`, 100, 300)
-        this.ctx.fillText('To start again press SPACE', 60, this.canvasSize.h / 2)
-        
+        this.gameover = new gameOverScreen(this.ctx, this.canvasSize.w, this.canvasSize.h, this.scoreFloor, this.highScore)
     },
 }
