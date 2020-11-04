@@ -17,13 +17,14 @@ const Game = {
     },
     interval: undefined,
     interval2: undefined,
-    difficulty: 5,
+    difficulty: 6,
     homepage: undefined,
     letsBegin: false,
     gameover: undefined,
     isdead: false,
     onredbull: false,
     powers: [],
+    coins:[],
     intervalScore : 0,
 
     init(id) {
@@ -66,8 +67,11 @@ const Game = {
                 }
                 this.clearScreen()
                 this.drawAll()
-                if (this.scoreFloor%450 === 0 && this.scoreFloor) {
+                if (this.scoreFloor%450 === 0 && this.scoreFloor && Math.floor(Math.random() * 2) === 1) {
                     this.generateRedbull()
+                }
+                if (this.scoreFloor%125 === 0 && this.scoreFloor && Math.floor(Math.random() * 2) === 1) {
+                    this.generateToken()
                 }
                 this.isCollision()
                 this.playerFall() ? this.gameOver() : null
@@ -76,6 +80,9 @@ const Game = {
     },
     drawAll() {
         this.platforms.forEach(elm => {
+            elm.draw()
+        });
+        this.coins.forEach(elm => {
             elm.draw()
         });
         this.powers.forEach(elm => {
@@ -96,8 +103,9 @@ const Game = {
     },
     
     moveScreen() {
+        
         if (this.player.playerPos.y < this.canvasSize.h / 2 + 100) {
-            this.platYchange = 4.5
+            this.platYchange = 4.8
             this.player.playerVel.y += 0.25
             this.score++
             this.scoreFloor = (Math.floor(this.score / 10) * 10)
@@ -105,7 +113,7 @@ const Game = {
             this.platYchange = 0
         }
     },
-    moveScreenOnRedbull() {
+    moveScreenOnRedbull() { 
             this.platYchange = 9
         if (this.player.playerVel.y < 0) {
             this.player.playerVel.y -= 0.11
@@ -133,11 +141,15 @@ const Game = {
                     this.platforms.unshift(newPlat)
                 }
                 if (randomPlat === 4 && this.scoreFloor > 300) {
-                    
                     let newPlat = new Enemy(this.ctx, newPlatPosX, -25, this.canvasSize.w)
                     this.platforms.unshift(newPlat)
-                }
-                
+                }  
+            }
+        })
+        this.coins.forEach(elm => {
+            elm.posY += platYvel;
+            if (elm.posY > this.canvasSize.h) {
+                this.coins.pop()
             }
         })
     },
@@ -152,6 +164,18 @@ const Game = {
                     this.powers.pop()
                 }
             })    
+    },
+    generateToken() {
+        if (!this.coins.length) {
+            let newToken = new Token(this.ctx, this.canvasSize.w-40)
+            this.coins.unshift(newToken)
+        } else if (this.coins.length)
+            this.coins.forEach(elm => {
+                elm.posY += this.platYchange;
+                if (elm.posY > this.canvasSize.h) {
+                    this.coins.pop()
+                }
+            })
     },
     generatePlayer() {
         let playerStartingX = this.platforms[this.platforms.length - 1].posX;
@@ -191,13 +215,31 @@ const Game = {
                 this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
                 this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
                 this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
-                elm.redbull && !this.isdead) ||
+                elm.redbull && !this.isdead && !this.onredbull) ||
                 (this.player.playerPos.x < elm.posX + elm.width &&
                     this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
                     this.player.playerPos.y <= elm.posY + elm.height &&
                     this.player.playerPos.y >= elm.posY &&
                     elm.redbull && !this.isdead && !this.onredbull)) {
                 this.onredbull = true
+                this.powers.pop()
+                
+            }
+        })
+        this.coins.forEach(elm => {
+            if (( //pillando monedas
+                this.player.playerPos.x < elm.posX + elm.width &&
+                this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
+                this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
+                this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
+                !this.isdead && !this.onredbull) ||
+                (this.player.playerPos.x < elm.posX + elm.width &&
+                    this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
+                    this.player.playerPos.y <= elm.posY + elm.height &&
+                    this.player.playerPos.y >= elm.posY &&
+                    !this.isdead && !this.onredbull)) {
+                this.coins.pop()
+                this.score += 50
                 
             }
         })
