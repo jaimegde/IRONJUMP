@@ -54,12 +54,21 @@ const Game = {
                 this.homepage.draw()
             }
             else {
-                this.intervalScore++
+                if (this.onredbull && this.intervalScore<=2) {
+                    this.intervalScore += (this.intervalScore + 1) / 100
+                    this.moveScreenOnRedbull()
+                    this.movePlatforms(this.platYchange)
+                } else { 
+                    this.onredbull = false
+                    this.intervalScore = 0
+                    this.moveScreen()
+                    this.movePlatforms(this.platYchange)
+                }
                 this.clearScreen()
                 this.drawAll()
-                this.scoreFloor % 20 === 0 ? this.generateRedbull() : null
-                this.moveScreen()
-                this.movePlatforms(this.platYchange)
+                if (this.scoreFloor%450 === 0 && this.scoreFloor) {
+                    this.generateRedbull()
+                }
                 this.isCollision()
                 this.playerFall() ? this.gameOver() : null
             }
@@ -96,6 +105,19 @@ const Game = {
             this.platYchange = 0
         }
     },
+    moveScreenOnRedbull() {
+            this.platYchange = 9
+        if (this.player.playerVel.y < 0) {
+            this.player.playerVel.y -= 0.11
+        }
+            else {
+            this.player.playerVel.y -= 3
+            //this.player.playerVel.y -= 0.075
+            }
+            this.score +=3 
+            this.scoreFloor = (Math.floor(this.score / 10) * 10)
+         
+    },
     movePlatforms(platYvel) {
         this.platforms.forEach(elm => {
             elm.posY += platYvel;
@@ -121,7 +143,7 @@ const Game = {
     },
     generateRedbull() {
         if (!this.powers.length) {
-            let newPower = new Powerup(this.ctx, this.canvasSize.w)
+            let newPower = new Powerup(this.ctx, this.canvasSize.w-40)
             this.powers.unshift(newPower)
         } else if (this.powers.length)
             this.powers.forEach(elm => {
@@ -134,7 +156,7 @@ const Game = {
     generatePlayer() {
         let playerStartingX = this.platforms[this.platforms.length - 1].posX;
         let playerStartingY = this.platforms[this.platforms.length - 1].posY - 100;
-        this.player = new Player(this.ctx, playerStartingX, playerStartingY, this.canvasSize.w, 'img/boiLeft.png', this.isdead)
+        this.player = new Player(this.ctx, playerStartingX, playerStartingY, this.canvasSize.w, this.isdead)
     },
     isCollision() {
         this.platforms.forEach(elm => {
@@ -151,7 +173,7 @@ const Game = {
                 this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
                 this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
                 this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
-                !elm.good && !this.isdead) ||
+                !elm.good && !this.isdead && !this.onredbull) ||
                 (this.player.playerPos.x < elm.posX + elm.width &&
                     this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
                     this.player.playerPos.y <= elm.posY + elm.height &&
@@ -159,7 +181,8 @@ const Game = {
                     !elm.good && !this.isdead && !this.onredbull)) {
                 this.player.isdead = true
                 this.isdead = true
-                this.player.image.src = 'img/deadBoi.png'
+                this.player.playerImageInstance.src = 'img/deadBoi.png'
+                this.player.playerVel.y += 10
             }
         })
         this.powers.forEach(elm => {
@@ -175,8 +198,7 @@ const Game = {
                     this.player.playerPos.y >= elm.posY &&
                     elm.redbull && !this.isdead && !this.onredbull)) {
                 this.onredbull = true
-                this.redbullFly()
-                console.log('redbull')
+                
             }
         })
         
@@ -184,17 +206,6 @@ const Game = {
 
     clearScreen() {
         this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h)
-    },
-    redbullFly() {
-        let platformCounter = 0 
-        while (platformCounter <= 200) {
-            this.movePlatforms(2)
-            platformCounter++
-        }
-        
-        this.onredbull = false
-        
-        
     },
     playerFall() {
         if (this.player.playerPos.y > this.canvasSize.h) {

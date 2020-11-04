@@ -23,17 +23,17 @@ class Player {
       keyLeft: false,
       keyRight: false,
     };
-      this.isdead = isdead
+    this.isdead = isdead
     this.init();
   }
   init() {
     this.playerImageInstance = new Image();
     this.playerImageInstance.src = "img/boiRight.png";
   }
-  draw() {
-      this.move();
-     this.movePlayer();
-    this.ctx.drawImage(
+    draw() {
+    this.move();
+    this.movePlayer();
+      this.ctx.drawImage(
       this.playerImageInstance,
       this.playerPos.x,
       this.playerPos.y,
@@ -43,14 +43,18 @@ class Player {
   }
   move() {
     document.addEventListener("keydown", (e) => {
-      switch (e.key) {
-          case this.keys.left:
-              this.keyState.keyLeft = true;
-          break;
-          case this.keys.right:
-              this.keyState.keyRight = true;
-          break;
-      }
+        if (!this.isdead) {
+            switch (e.key) {
+                case this.keys.left:
+                    this.keyState.keyLeft = true;
+                    this.playerImageInstance.src = "img/boiRight.png";
+                    break;
+                case this.keys.right:
+                    this.keyState.keyRight = true;
+                    this.playerImageInstance.src = "img/boiLeft.png";
+                    break;
+            }
+        }
     });
     document.addEventListener("keyup", (e) => {
       switch (e.key) {
