@@ -1,10 +1,10 @@
 class Player{
-    constructor(ctx, posX, posY, canvasWidth) {
+    constructor(ctx, posX, posY, canvasWidth, imageSrc) {
         this.ctx = ctx
         this.canvasWidth = canvasWidth
         this.playerSize = {
             w: 50,
-            h: 50
+            h: 75
         }
         this.playerPos = {
             x: posX,
@@ -12,23 +12,25 @@ class Player{
         }
         this.playerVel = {
             x: 0.1,
-            y: 0.1
+            y: 0.5
         }
-        this.playerImageInstance = undefined
+        this.image = new Image()
+        this.image.src = imageSrc
         this.keys = {
             left: 'ArrowLeft',
             right: 'ArrowRight'
         }
-        this.init()
+        
+        //this.init()
     }
 
-    init() {
-        this.playerImageInstance = new Image()
-        this.playerImageInstance.src = 'img/basketball.png'
-    }
+    /*init() {
+        this.playerImageInstance = 
+        this.playerImageInstance.src = imageSrc
+    }*/
     draw() {
         this.move()
-        this.ctx.drawImage(this.playerImageInstance, this.playerPos.x, this.playerPos.y, this.playerSize.w, this.playerSize.h)
+        this.ctx.drawImage(this.image, this.playerPos.x, this.playerPos.y, this.playerSize.w, this.playerSize.h)
     }
 
     move() {
@@ -39,15 +41,11 @@ class Player{
             switch (e.key) {
                 case this.keys.left:
                     this.playerPos.x -= this.playerVel.x
-                   /* console.log(`La posición en X: ${this.playerPos.x}
-                    La Velocidad en X: ${this.playerVel.x}
-                    La Velocidad en Y: ${this.playerVel.y}`)*/
+                    this.image.src = 'img/boiRight.png'
                     break;
                 case this.keys.right:
                     this.playerPos.x += this.playerVel.x
-                    /*console.log(`La posición en X: ${this.playerPos.x}
-                    La Velocidad en X: ${this.playerVel.x}
-                    La Velocidad en Y: ${this.playerVel.y}`)*/
+                    this.image.src = 'img/boiLeft.png'
                     break;
             }
         });

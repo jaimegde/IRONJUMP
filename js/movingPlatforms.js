@@ -2,8 +2,8 @@ class movingPlatform {
     constructor(ctx, posX, posY, canvasWidth) {
         this.ctx = ctx;
 
-        this.width = 80;
-        this.height = 20;
+        this.width = 110;
+        this.height = 25;
 
         this.posX = posX;
         this.posY = posY;
@@ -11,7 +11,7 @@ class movingPlatform {
         this.canvasWidth = canvasWidth
         this.good = true
         this.image = new Image();
-        this.image.src = 'img/PNG/Environment/ground_cake.png';
+        this.image.src = 'img/neonplat.png';
     }
     draw() {
         this.move()

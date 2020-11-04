@@ -2,8 +2,8 @@ class Enemy {
     constructor(ctx, posX, posY, canvasWidth) {
         this.ctx = ctx;
 
-        this.width = 45;
-        this.height = 35;
+        this.width = 50;
+        this.height = 50;
 
         this.posX = posX;
         this.posY = posY;
@@ -11,7 +11,7 @@ class Enemy {
         this.canvasWidth = canvasWidth
         this.good = false
         this.image = new Image();
-        this.image.src = 'img/Obj_cube-creature.png';
+        this.image.src = 'img/Viru1s.png';
     }
     draw() {
         this.move()

@@ -4,7 +4,7 @@
 }
 
 #canvas {
-    background-color: aquamarine;
+    background: url('../img/tronbackg.jpg') no-repeat center/cover;
     display: block;
     margin: 0 auto;
 }

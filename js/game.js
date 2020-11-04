@@ -18,19 +18,19 @@ const Game = {
     interval: undefined,
     difficulty: 5,
     enemies: [],
+    homepage: undefined,
+    letsBegin: false,
 
     init(id) {
         this.canvas = document.getElementById(id)
         this.ctx = this.canvas.getContext('2d')
         this.setDimensions()
-        
-        this.homePage()
         document.onkeypress = e => {
             if (e.key === this.keys.space) {
-                this.start()
+                this.letsBegin = true
             } 
-        }
-        
+        } 
+        this.start()
     },
     setDimensions() {
         this.canvasSize.w = 500
@@ -41,20 +41,24 @@ const Game = {
     
     start() {
         this.restart()
-        this.generateBackground()
+        this.homePage()
         this.generatePlatform() 
         this.generatePlayer()
         this.interval = setInterval(() => {
-            this.clearScreen()
-            this.drawAll()
-            this.moveScreen()
-            this.movePlatforms()
-            this.isCollision()
-            this.playerFall() ? this.gameOver() : null
+            if (!this.letsBegin) {
+                this.homepage.draw()
+             }
+            else {
+                this.clearScreen()
+                this.drawAll()
+                this.moveScreen()
+                this.movePlatforms()
+                this.isCollision()
+                this.playerFall() ? this.gameOver() : null
+            }
         }, 30)
     },
     drawAll() {
-        this.background.draw()
         this.platforms.forEach(elm => {
             elm.draw()
         });
@@ -81,11 +85,7 @@ const Game = {
                 this.platforms.push(plat)
             }
     },
-    generateEnemy() {
-        let newPlatPosX = Math.floor(Math.random() * 350)
-        let plat = new Enemy(this.ctx, newPlatPosX, 200, this.canvasSize.w)
-        this.enemies.push(plat)
-    },
+    
     moveScreen() {
         if (this.player.playerPos.y < this.canvasSize.h /2 +50) {
             this.platYchange = 4
@@ -104,14 +104,15 @@ const Game = {
                 let newPlatPosX = Math.floor(Math.random() * 350)
                 let randomPlat = Math.floor(Math.random()*this.difficulty)
                 if (randomPlat === 3 && this.scoreFloor > 150) {
-                    let newPlat = new movingPlatform(this.ctx, newPlatPosX, 25, this.canvasSize.w)
+                    let newPlat = new movingPlatform(this.ctx, newPlatPosX, 50, this.canvasSize.w)
                     this.platforms.unshift(newPlat)
                 }else {
-                    let newPlat = new Platform(this.ctx, newPlatPosX, 25)
+                    let newPlat = new Platform(this.ctx, newPlatPosX, 50)
                     this.platforms.unshift(newPlat)
                 }
                 if (randomPlat === 4 && this.scoreFloor > 300) {
-                    let newPlat = new Enemy(this.ctx, newPlatPosX, 0, this.canvasSize.w)
+                    
+                    let newPlat = new Enemy(this.ctx, newPlatPosX, -25, this.canvasSize.w)
                     this.platforms.unshift(newPlat)
 
                 }
@@ -120,19 +121,16 @@ const Game = {
     },
     generatePlayer() {
         let playerStartingX = this.platforms[this.platforms.length - 1].posX;
-        let playerStartingY = this.platforms[this.platforms.length - 1].posY - 50;
-        this.player = new Player(this.ctx, playerStartingX, playerStartingY, this.canvasSize.w)
-    },
-    generateBackground() {
-        this.background = new Background(this.ctx, this.canvasSize.w, this.canvasSize.h)
+        let playerStartingY = this.platforms[this.platforms.length - 1].posY - 100;
+        this.player = new Player(this.ctx, playerStartingX, playerStartingY, this.canvasSize.w, 'img/boiLeft.png')
     },
     isCollision() {
         this.platforms.forEach(elm => {
             if (
                 this.player.playerPos.x < elm.posX + elm.width &&
                 this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
-                this.player.playerPos.y + this.player.playerSize.w < elm.posY + elm.height &&
-                this.player.playerPos.y + this.player.playerSize.w > elm.posY &&
+                this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
+                this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
                 this.player.playerVel.y > 0 && elm.good
                 ) {
                 this.player.playerVel.y = -10;
@@ -168,7 +166,7 @@ const Game = {
     },
     drawText() {
         this.ctx.font = "25px Sans-serif"  
-        this.ctx.fillStyle = "white";
+        this.ctx.fillStyle = "aqua";
         this.ctx.fillText(`Score: ${this.scoreFloor}`, 20, 28)
         this.ctx.fillText(`Highscore: ${this.highScore}`, this.canvasSize.w-185, 28)
     },
@@ -177,7 +175,7 @@ const Game = {
             this.highScore = this.scoreFloor
         }
         clearInterval(this.interval)
-        this.clearScreen()
+        //this.clearScreen()
         this.gameOverScreen()
         this.score = 0
         document.onkeypress = e => {
@@ -187,11 +185,8 @@ const Game = {
         }
     },
     homePage() {
-        this.ctx.font = "30px Sans-serif" 
-        this.ctx.fillStyle = "white";
-        this.ctx.fillText('To start press SPACE', 60, this.canvasSize.h / 2)
-        this.ctx.font = "50px Sans-serif" 
-        this.ctx.fillText('IronJump', 100, 100)
+        this.homepage = new titlePage(this.ctx, this.canvasSize.w, this.canvasSize.h)
+        this.homepage.drawText()
     },
     restart() { 
         this.platforms = []
@@ -199,12 +194,14 @@ const Game = {
         this.player = undefined
     },
     gameOverScreen() {
+        this.ctx.fillStyle = "aqua";
+        this.ctx.font = "50px Sans-serif" 
+        this.ctx.fillText('GAME OVER', 100, 100)
         this.ctx.font = "30px Sans-serif" 
-        this.ctx.fillStyle = "white";
+        this.ctx.fillStyle = "raspberry";
         this.ctx.fillText(`Score: ${this.scoreFloor}`, 100, 220)
         this.ctx.fillText(`Highscore: ${this.highScore}`, 100, 300)
         this.ctx.fillText('To start again press SPACE', 60, this.canvasSize.h / 2)
-        this.ctx.font = "50px Sans-serif" 
-        this.ctx.fillText('GAME OVER', 100, 100)
+        
     },
 }
