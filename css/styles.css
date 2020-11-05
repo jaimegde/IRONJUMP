@@ -3,8 +3,122 @@
     padding: 0;
 }
 
+.logo {
+    width: 80%;
+    margin-top: 7rem
+}
+
 #canvas {
+    display: none;
     background: url('../img/tronbackg.jpg') no-repeat center/cover;
-    display: block;
     margin: 0 auto;
+}
+
+.start, .gameover {
+    background: url('../img/tronbackg.jpg') no-repeat center/cover;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    height: 100vh;
+    font-family: 'Roboto Mono', monospace;
+}
+
+.instructions {
+    margin: 2rem 2rem;
+    padding: 1rem 0;
+    width: 80%
+}
+
+.instruction-block {
+    padding: 0;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+    padding: 0
+}
+
+.elements {
+    width: 50px;
+    padding: .5rem
+}
+
+.space {
+    position: relative
+}
+
+.spacebar {
+    width: 180px;
+    height: 40px;
+    position: absolute;
+    left: 0px;
+    top: 40px
+}
+
+.space-text {
+    width: 100px;
+    position: absolute;
+    left: 45px;
+    top: 40px
+}
+
+.arrow {
+    width: 50px;
+    padding: 5px
+}
+
+.instruction-block {
+    padding: 1rem 2rem
+}
+
+h2 {
+    font-size: 1.25em;
+}
+
+hr {
+    background-color: #4FBED2;
+    width: 40%;
+    margin: 1rem auto
+}
+
+.powerup {
+    margin: 10px 0;
+}
+
+.underline-text {
+    font-size: .75em;
+}
+
+h3 {
+    font-size: 1.25em;
+}
+#gameover {
+    display: none;
+}
+
+.scores {
+    text-align: start;
+}
+
+.gameover {
+    justify-content: center;
+}
+
+.gameover-text {
+    margin: 0 auto 5rem;
+}
+
+.scores {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+}
+
+.gameover-space .spacebar {
+    left: 10px
 }

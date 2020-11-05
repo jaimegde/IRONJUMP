@@ -15,6 +15,7 @@ const Game = {
     keys: {
         space: ' '
     },
+    gameOverSoundCounter: 0,
     interval: undefined,
     interval2: undefined,
     difficulty: 6,
@@ -24,13 +25,18 @@ const Game = {
     isdead: false,
     onredbull: false,
     powers: [],
-    coins:[],
+    coins: [],
+    enemies:[],
     intervalScore: 0,
     sounds: {
         oof: undefined,
         rbalas: undefined,
         boing: undefined,
-        background: undefined
+        background: undefined,
+        salsota: undefined,
+        party: undefined,
+        fuegote: undefined,
+        allright: undefined
     },
 
     init(id) {
@@ -38,15 +44,10 @@ const Game = {
         this.ctx = this.canvas.getContext('2d')
         this.setDimensions()
         this.loadMusic()
-        document.onload = () => {
-            this.sounds.background.play()
-        }
-        document.onkeypress = e => {
-            if (e.key === this.keys.space) {
-                this.letsBegin = true
-            }
-        }
+        
         this.start()
+
+        
     },
     setDimensions() {
         this.canvasSize.w = 500
@@ -59,39 +60,51 @@ const Game = {
         this.sounds.rbalas = new Audio("sounds/rbalas.mp3")
         this.sounds.boing = new Audio("sounds/boing.mp3")
         this.sounds.background = new Audio("sounds/tronlong.mp3")
+        this.sounds.salsota = new Audio("sounds/salsota.mp3")
+        this.sounds.party = new Audio("sounds/party.mp3")
+        this.sounds.fuegote = new Audio("sounds/fuegote.mp3")
+        this.sounds.allright = new Audio("sounds/allright.mp3")
     },
     start() {
-        this.restart()
-        !this.letsBegin ? this.homePage() : null
+         document.onkeypress = e => {
+             if (e.key === this.keys.space) {
+                document.getElementById("start").style.display = "none";
+                document.getElementById("canvas").style.display = "block";
+                if (!this.letsBegin) {
+                    this.letsBegin = true
+                    this.sounds.party.play()
+                }
+            }
+         }
+        
         this.generatePlatform()
         this.generatePlayer()
+        this.sounds.party.play()
         this.interval = setInterval(() => {
-            if (!this.letsBegin) {
-                this.homepage.draw()
-            }
-            else {
                 if (this.onredbull && this.intervalScore<=2) {
                     this.intervalScore += (this.intervalScore + 1) / 100
                     this.moveScreenOnRedbull()
-                    this.movePlatforms(this.platYchange)
+                    this.moveElements()
                 } else { 
                     this.onredbull = false
                     this.intervalScore = 0
                     this.moveScreen()
-                    this.movePlatforms(this.platYchange)
+                    this.moveElements()
                 }
                 this.sounds.background.play()
                 this.clearScreen()
                 this.drawAll()
+                if (this.scoreFloor > 300 && Math.floor(Math.random() * 7) === 3) {
+                    this.generateEnemies()
+                }
                 if (this.scoreFloor%450 === 0 && this.scoreFloor && Math.floor(Math.random() * 2) === 1) {
                     this.generateRedbull()
                 }
-                if (this.scoreFloor%125 === 0 && this.scoreFloor && Math.floor(Math.random() * 2) === 1) {
+                if (this.scoreFloor%125 === 0 && this.scoreFloor && Math.floor(Math.random() * 2) === 0) {
                     this.generateToken()
                 }
                 this.isCollision()
                 this.playerFall() ? this.gameOver() : null
-            }
         }, 30)
     },
     drawAll() {
@@ -102,6 +115,9 @@ const Game = {
             elm.draw()
         });
         this.powers.forEach(elm => {
+            elm.draw()
+        });
+        this.enemies.forEach(elm => {
             elm.draw()
         });
         this.player.draw()
@@ -119,7 +135,6 @@ const Game = {
     },
     
     moveScreen() {
-        
         if (this.player.playerPos.y < this.canvasSize.h / 2 + 100) {
             this.platYchange = 4.85
             this.player.playerVel.y += 0.25
@@ -142,9 +157,9 @@ const Game = {
             this.scoreFloor = (Math.floor(this.score / 10) * 10)
          
     },
-    movePlatforms(platYvel) {
+    moveElements() {
         this.platforms.forEach(elm => {
-            elm.posY += platYvel;
+            elm.posY += this.platYchange;
             if (elm.posY > this.canvasSize.h) {
                 this.platforms.pop()
                 let newPlatPosX = Math.floor(Math.random() * 350)
@@ -156,30 +171,39 @@ const Game = {
                     let newPlat = new Platform(this.ctx, newPlatPosX, 50)
                     this.platforms.unshift(newPlat)
                 }
-                if (randomPlat === 4 && this.scoreFloor > 300) {
-                    let newPlat = new Enemy(this.ctx, newPlatPosX, -25, this.canvasSize.w)
-                    this.platforms.unshift(newPlat)
-                }  
             }
         })
         this.coins.forEach(elm => {
-            elm.posY += platYvel;
+            elm.posY += this.platYchange;
             if (elm.posY > this.canvasSize.h) {
                 this.coins.pop()
             }
         })
+        this.enemies.forEach(elm => {
+            elm.posY += this.platYchange;
+            if (elm.posY > this.canvasSize.h) {
+                this.enemies.pop()
+            }
+        })
+        this.powers.forEach(elm => {
+            elm.posY += this.platYchange;
+            if (elm.posY > this.canvasSize.h) {
+                this.powers.pop()
+            }
+        }) 
+    },
+    generateEnemies() {
+        let randomX = Math.floor(Math.random() * this.canvasSize.w)
+        if (!this.enemies.length) {
+            let newenemy = new Enemy(this.ctx, randomX, 0,this.canvasSize.w)
+            this.enemies.unshift(newenemy)
+        } 
     },
     generateRedbull() {
         if (!this.powers.length) {
             let newPower = new Powerup(this.ctx, this.canvasSize.w-40)
             this.powers.unshift(newPower)
-        } else if (this.powers.length)
-            this.powers.forEach(elm => {
-                elm.posY += this.platYchange;
-                if (elm.posY > this.canvasSize.h) {
-                    this.powers.pop()
-                }
-            })    
+        }   
     },
     generateToken() {
         if (!this.coins.length) {
@@ -207,62 +231,67 @@ const Game = {
                 this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
                 this.player.playerVel.y > 0 && elm.good && !this.onredbull
             ) {
-                this.sounds.boing.play()
+                //this.sounds.boing.play()
                 this.player.playerVel.y = -10;
-            } else if (( //golpeando enemigos
-                this.player.playerPos.x < elm.posX + elm.width &&
-                this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
-                this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
-                this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
-                !elm.good && !this.isdead && !this.onredbull) ||
-                (this.player.playerPos.x < elm.posX + elm.width &&
+                }
+            })
+            this.enemies.forEach(elm => {
+                if (( //golpeando enemigos
+                    this.player.playerPos.x < elm.posX + elm.width &&
                     this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
-                    this.player.playerPos.y <= elm.posY + elm.height &&
-                    this.player.playerPos.y >= elm.posY &&
-                    !elm.good && !this.isdead && !this.onredbull)) {
-                this.sounds.oof.play()
-                this.player.isdead = true
-                this.isdead = true
-                this.player.playerImageInstance.src = 'img/deadBoi.png'
-                this.player.playerVel.y += 10
-            }
-        })
-        this.powers.forEach(elm => {
-            if (( //pillando redbulls
-                this.player.playerPos.x < elm.posX + elm.width &&
-                this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
-                this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
-                this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
-                elm.redbull && !this.isdead && !this.onredbull) ||
-                (this.player.playerPos.x < elm.posX + elm.width &&
+                    this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
+                    this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
+                    !elm.good && !this.isdead && !this.onredbull) ||
+                    (this.player.playerPos.x < elm.posX + elm.width &&
+                        this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
+                        this.player.playerPos.y <= elm.posY + elm.height &&
+                        this.player.playerPos.y >= elm.posY &&
+                        !elm.good && !this.isdead && !this.onredbull))
+                {
+                    this.sounds.oof.play()
+                    this.player.isdead = true
+                    this.isdead = true
+                    this.player.playerImageInstance.src = 'img/deadBoi.png'
+                    this.player.playerVel.y += 10
+                }
+            })
+            
+            this.powers.forEach(elm => {
+                if (( //pillando redbulls
+                    this.player.playerPos.x < elm.posX + elm.width &&
                     this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
-                    this.player.playerPos.y <= elm.posY + elm.height &&
-                    this.player.playerPos.y >= elm.posY &&
-                    elm.redbull && !this.isdead && !this.onredbull)) {
-                this.sounds.rbalas.play()
-                this.onredbull = true
-                this.powers.pop()
+                    this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
+                    this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
+                    elm.redbull && !this.isdead && !this.onredbull) ||
+                    (this.player.playerPos.x < elm.posX + elm.width &&
+                        this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
+                        this.player.playerPos.y <= elm.posY + elm.height &&
+                        this.player.playerPos.y >= elm.posY &&
+                        elm.redbull && !this.isdead && !this.onredbull)) {
+                    this.sounds.rbalas.play()
+                    this.onredbull = true
+                    this.powers.pop()
                 
-            }
-        })
-        this.coins.forEach(elm => {
-            if (( //pillando monedas
-                this.player.playerPos.x < elm.posX + elm.width &&
-                this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
-                this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
-                this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
-                !this.isdead && !this.onredbull) ||
-                (this.player.playerPos.x < elm.posX + elm.width &&
+                }
+            })
+            this.coins.forEach(elm => {
+                if (( //pillando monedas
+                    this.player.playerPos.x < elm.posX + elm.width &&
                     this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
-                    this.player.playerPos.y <= elm.posY + elm.height &&
-                    this.player.playerPos.y >= elm.posY &&
-                    !this.isdead && !this.onredbull)) {
-                this.coins.pop()
-                this.score += 50
+                    this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
+                    this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
+                    !this.isdead) ||
+                    (this.player.playerPos.x < elm.posX + elm.width &&
+                        this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
+                        this.player.playerPos.y <= elm.posY + elm.height &&
+                        this.player.playerPos.y >= elm.posY &&
+                        !this.isdead)) {
+                    this.sounds.salsota.play()
+                    this.coins.pop()
+                    this.score += 50
                 
-            }
-        })
-        
+                }
+            })
     },
 
     clearScreen() {
@@ -278,39 +307,57 @@ const Game = {
     },
     drawText() {
         this.ctx.font = "25px Sans-serif"  
-        this.ctx.fillStyle = "aqua";
+        this.ctx.fillStyle = "white";
         this.ctx.fillText(`Score: ${this.scoreFloor}`, 20, 28)
         this.ctx.fillText(`Highscore: ${this.highScore}`, this.canvasSize.w-185, 28)
     },
     gameOver() {
+        
+        document.querySelector(".score span").innerText = this.scoreFloor
         if (this.highScore < this.scoreFloor) {
             this.highScore = this.scoreFloor
+            document.querySelector(".highscore span").innerText = this.highScore
+            if (this.gameOverSoundCounter === 0) {
+                this.sounds.fuegote.play()
+                this.gameOverSoundCounter++
+            }
+        }
+        if (this.gameOverSoundCounter === 0) {
+                this.sounds.allright.play()
+                this.gameOverSoundCounter++
         }
         this.gameOverScreen()
-        
+        this.letsBegin = false
         document.onkeypress = e => {
             if (e.key === this.keys.space) {
+                this.restart()
                 clearInterval(this.interval)
                 this.clearScreen()
+                this.letsBegin = true
                 this.start()
             } 
         }
-    },
-    homePage() {
-        this.homepage = new titlePage(this.ctx, this.canvasSize.w, this.canvasSize.h)
-        this.homepage.drawText()
     },
     
     restart() { 
         this.platforms = []
         this.enemies = []
+        this.coins = []
+        this.powers = []
         this.player = undefined
         this.score = 0
         this.scoreFloor = 0
         this.isdead = false
         this.onredbull = false
+        this.gameOverSoundCounter = 0
+        document.getElementById("gameover").style.display = "none";
+        document.getElementById("canvas").style.display = "block";
+
     },
     gameOverScreen() {
-        this.gameover = new gameOverScreen(this.ctx, this.canvasSize.w, this.canvasSize.h, this.scoreFloor, this.highScore)
+        
+        document.getElementById("gameover").style.display = "block";
+        document.getElementById("canvas").style.display = "none";
+
     },
 }

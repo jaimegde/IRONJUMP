@@ -4,24 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-
-        <div id='platform'>
-
+    <div id='start'>
+    <div class='start'>
+        <img src="img/ironjump.png" alt="IronJump" class="logo">
+        <div class="space">
+            <h3>To start press:</h3>
+            <img src="img/neonplat.png" alt="Neon space bar" class="spacebar">
+            <img src="img/spaceText.png" alt="Space" class="space-text">
+        </div>
+        <div class='instructions'>
+            <hr>
+            <h2>Instructions:</h2>
+            <img src="img/arrowkeyLeft.jpg" alt="Left arrow key" class="arrow">To move use the arrow keys<img src="img/arrowkeyRight.jpg" alt="Right arrow key" class="arrow">
+            <div class="row">
+                <div class='col-5 instruction-block'>
+                    <p class='title'>Beware of viruses!</p>
+                    <img src="img/Viru1s.png" alt="Green virus" class="elements">
+                    <p class='underline-text'>They will kill you instantly</p>
+                </div>
+                <div class='col-7 instruction-block'>
+                    <p class='title powerup'>Collect power-ups</p>
+                    <div class='row'>
+                        <div class="col-6">
+                            <img src="img/ironhackLogo.png" alt="Ironhack logo" class="elements">
+                            <p class='underline-text'>Tokens increase your score</p>
+                        </div>
+                        <div class="col-6">
+                            <img src="img/redbull.png" alt='Lata de Redbull' class="elements">
+                            <p class='underline-text'>Redbulls make you soar</p>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <h3>Your objective is to score maximum points</h3>
+        </div>
+    </div>
+    </div>
+    <div id='gameover'>
+        <div class='gameover'>
+            <img src="img/gameover.png" alt="Game Over" class='logo gameover-text'>
+            <div class='scores'>
+                <p class='score'>Your score:<span>0</span></p>
+                <p class='highscore'>Your highscore:<span>0</span></p>
+                <hr>
+            </div>
+            <div class="space gameover-space">
+                <h3>To restart press:</h3>
+                <img src="img/neonplat.png" alt="Neon space bar" class="spacebar">
+                <img src="img/spaceText.png" alt="Space" class="space-text">
+            </div>
+        </div>
+    </div>
     <canvas id="canvas"></canvas>
-    
-    <script src="./js/homePage.js"></script>
-    <script src="./js/powerup.js"></script>
     <script src="./js/token.js"></script>
+    <script src="./js/powerup.js"></script>
     <script src="./js/platform.js"></script>
     <script src="./js/movingPlatforms.js"></script>
     <script src="./js/enemies.js"></script>
     <script src="./js/player.js"></script>
-    <script src="./js/gameOver.js"></script>
+
     <script src="./js/game.js"></script>
     <script src="./js/index.js"></script>
-
 </body>
 </html>

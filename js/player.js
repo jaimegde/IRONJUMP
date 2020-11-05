@@ -11,7 +11,7 @@ class Player {
       y: posY,
     };
     this.playerVel = {
-      x: 3,
+      x: 4,
       y: 0.6,
     };
     this.playerImageInstance = undefined;
