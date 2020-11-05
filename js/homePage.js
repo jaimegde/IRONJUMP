@@ -24,8 +24,8 @@ class titlePage {
     }
     draw() {
         this.ctx.drawImage(this.image, this.posX, 200, this.width, this.height);
-        this.ctx.drawImage(this.imageSpace, this.posX+60, 455, 200, 50);
-        this.ctx.drawImage(this.imageSpaceText, this.posX+60,455, 200, 50);
+        this.ctx.drawImage(this.imageSpace, this.width/1.8, 455, 200, 50);
+        this.ctx.drawImage(this.imageSpaceText, this.width/1.8,455, 200, 50);
         this.ctx.drawImage(this.imageVirus, this.posX - 50, this.posY * 7, this.width / 4, this.height / 1.5);
         this.ctx.drawImage(this.imageArrowLeft, this.posX-25, this.posY * 6, this.width / 6, this.height / 3);
         this.ctx.drawImage(this.imageArrowRight, this.posX+285 , this.posY * 6, this.width / 6, this.height / 3);
@@ -37,16 +37,16 @@ class titlePage {
     drawText() {
         this.ctx.fillStyle = "aqua";
         this.ctx.font = "30px Sans-serif";
-        this.ctx.fillText('To start press', 100+65, 420);
+        this.ctx.fillText('To start press', this.width/1.75, this.canvasHeight/2.15);
         this.ctx.font = "72px Sans-serif";
-        this.ctx.fillText('🏆', this.posX -60, this.posY * 8.5 + 20);
+        this.ctx.fillText('🏆', this.posX -(this.width/8), this.posY * 8.5 +(this.width/8));
         this.ctx.font = "26px Sans-serif";
-        this.ctx.fillText('Your goal is to score ', this.posX + this.width / 4, this.posY * 8.5 - 20);
-        this.ctx.fillText('the MAXIMUM points! ', this.posX + this.width / 4, this.posY * 8.5 + 20);
-        this.ctx.fillText('BEWARE of the VIRUS!', this.posX + this.width / 4, this.posY * 7 + 20);
-        this.ctx.fillText('AVOID at ALL COSTS', this.posX + this.width / 4, this.posY * 7 + 65);
-        this.ctx.fillText('MOVE with the', this.posX + this.width / 4, this.posY * 6 + 20);
-        this.ctx.fillText('ARROW KEYS', this.posX + this.width / 4, this.posY * 6 + 55);
+        this.ctx.fillText('Your goal is to score ', this.posX + this.width / 4, this.posY * 8.5 + (this.width/25));
+        this.ctx.fillText('the MAXIMUM points! ', this.posX + this.width / 4, this.posY * 8.5 + (this.width/8));
+        this.ctx.fillText('BEWARE of the VIRUS!', this.posX + this.width / 4, this.posY * 7 + (this.width/25));
+        this.ctx.fillText('AVOID at ALL COSTS', this.posX + this.width / 4, this.posY * 7 + (this.width/8));
+        this.ctx.fillText('MOVE with the', this.posX + this.width / 4, this.posY * 6 + (this.width/25));
+        this.ctx.fillText('ARROW KEYS', this.posX + this.width / 4, this.posY * 6 + (this.width/8));
     }
         
 }

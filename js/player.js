@@ -73,7 +73,7 @@ class Player {
     }
   }
     movePlayer() {
-          this.playerVel.y += 0.2;
+          this.playerVel.y += 0.25;
           this.playerPos.y += this.playerVel.y;
         if (this.keyState.keyLeft ) {
             this.playerPos.x -= this.playerVel.x;

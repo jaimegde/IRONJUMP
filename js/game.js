@@ -25,12 +25,22 @@ const Game = {
     onredbull: false,
     powers: [],
     coins:[],
-    intervalScore : 0,
+    intervalScore: 0,
+    sounds: {
+        oof: undefined,
+        rbalas: undefined,
+        boing: undefined,
+        background: undefined
+    },
 
     init(id) {
         this.canvas = document.getElementById(id)
         this.ctx = this.canvas.getContext('2d')
         this.setDimensions()
+        this.loadMusic()
+        document.onload = () => {
+            this.sounds.background.play()
+        }
         document.onkeypress = e => {
             if (e.key === this.keys.space) {
                 this.letsBegin = true
@@ -44,7 +54,12 @@ const Game = {
         this.canvas.setAttribute('width', this.canvasSize.w)
         this.canvas.setAttribute('height', this.canvasSize.h)
     },
-    
+    loadMusic() {
+        this.sounds.oof = new Audio("sounds/oof.mp3")
+        this.sounds.rbalas = new Audio("sounds/rbalas.mp3")
+        this.sounds.boing = new Audio("sounds/boing.mp3")
+        this.sounds.background = new Audio("sounds/tronlong.mp3")
+    },
     start() {
         this.restart()
         !this.letsBegin ? this.homePage() : null
@@ -65,6 +80,7 @@ const Game = {
                     this.moveScreen()
                     this.movePlatforms(this.platYchange)
                 }
+                this.sounds.background.play()
                 this.clearScreen()
                 this.drawAll()
                 if (this.scoreFloor%450 === 0 && this.scoreFloor && Math.floor(Math.random() * 2) === 1) {
@@ -105,7 +121,7 @@ const Game = {
     moveScreen() {
         
         if (this.player.playerPos.y < this.canvasSize.h / 2 + 100) {
-            this.platYchange = 4.8
+            this.platYchange = 4.85
             this.player.playerVel.y += 0.25
             this.score++
             this.scoreFloor = (Math.floor(this.score / 10) * 10)
@@ -191,6 +207,7 @@ const Game = {
                 this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
                 this.player.playerVel.y > 0 && elm.good && !this.onredbull
             ) {
+                this.sounds.boing.play()
                 this.player.playerVel.y = -10;
             } else if (( //golpeando enemigos
                 this.player.playerPos.x < elm.posX + elm.width &&
@@ -203,6 +220,7 @@ const Game = {
                     this.player.playerPos.y <= elm.posY + elm.height &&
                     this.player.playerPos.y >= elm.posY &&
                     !elm.good && !this.isdead && !this.onredbull)) {
+                this.sounds.oof.play()
                 this.player.isdead = true
                 this.isdead = true
                 this.player.playerImageInstance.src = 'img/deadBoi.png'
@@ -221,6 +239,7 @@ const Game = {
                     this.player.playerPos.y <= elm.posY + elm.height &&
                     this.player.playerPos.y >= elm.posY &&
                     elm.redbull && !this.isdead && !this.onredbull)) {
+                this.sounds.rbalas.play()
                 this.onredbull = true
                 this.powers.pop()
                 
