@@ -44,14 +44,11 @@ const Game = {
         this.ctx = this.canvas.getContext('2d')
         this.setDimensions()
         this.loadMusic()
-        
-        this.start()
-
-        
+        this.start()  
     },
     setDimensions() {
         this.canvasSize.w = 500
-        this.canvasSize.h = window.innerHeight
+        this.canvasSize.h = 937
         this.canvas.setAttribute('width', this.canvasSize.w)
         this.canvas.setAttribute('height', this.canvasSize.h)
     },
@@ -76,7 +73,6 @@ const Game = {
                 }
             }
          }
-        
         this.generatePlatform()
         this.generatePlayer()
         this.sounds.party.play()
@@ -338,7 +334,6 @@ const Game = {
             } 
         }
     },
-    
     restart() { 
         this.platforms = []
         this.enemies = []
@@ -352,7 +347,6 @@ const Game = {
         this.gameOverSoundCounter = 0
         document.getElementById("gameover").style.display = "none";
         document.getElementById("canvas").style.display = "block";
-
     },
     gameOverScreen() {
         
