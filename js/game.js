@@ -189,9 +189,9 @@ const Game = {
         }) 
     },
     generateEnemies() {
-        let randomX = Math.floor(Math.random() * this.canvasSize.w)
+        let randomX = Math.floor((Math.random() * this.canvasSize.w/1.5))
         if (!this.enemies.length) {
-            let newenemy = new Enemy(this.ctx, randomX, 0,this.canvasSize.w)
+            let newenemy = new Enemy(this.ctx, randomX+51, 0,this.canvasSize.w)
             this.enemies.unshift(newenemy)
         } 
     },
