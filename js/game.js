@@ -225,7 +225,7 @@ const Game = {
                 this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
                 this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
                 this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
-                this.player.playerVel.y > 0 && elm.good && !this.onredbull
+                this.player.playerVel.y > 0 && !this.onredbull
             ) {
                 //this.sounds.boing.play()
                 this.player.playerVel.y = -10;
@@ -237,12 +237,12 @@ const Game = {
                     this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
                     this.player.playerPos.y + this.player.playerSize.h < elm.posY + elm.height &&
                     this.player.playerPos.y + this.player.playerSize.h > elm.posY &&
-                    !elm.good && !this.isdead && !this.onredbull) ||
+                    !this.isdead && !this.onredbull) ||
                     (this.player.playerPos.x < elm.posX + elm.width &&
                         this.player.playerPos.x + this.player.playerSize.w > elm.posX &&
                         this.player.playerPos.y <= elm.posY + elm.height &&
                         this.player.playerPos.y >= elm.posY &&
-                        !elm.good && !this.isdead && !this.onredbull))
+                         !this.isdead && !this.onredbull))
                 {
                     this.sounds.oof.play()
                     this.player.isdead = true

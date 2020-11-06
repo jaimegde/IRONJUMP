@@ -9,7 +9,6 @@ class movingPlatform {
         this.posY = posY;
         this.vel = 3
         this.canvasWidth = canvasWidth
-        this.good = true
         this.image = new Image();
         this.image.src = 'img/neonplat.png';
     }

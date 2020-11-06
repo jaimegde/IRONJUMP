@@ -7,7 +7,6 @@ class Platform {
 
         this.posX = posX;
         this.posY = posY;
-        this.good = true
         this.image = new Image();
         this.image.src = 'img/neonplat.png';
     

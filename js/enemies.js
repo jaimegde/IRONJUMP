@@ -9,7 +9,6 @@ class Enemy {
         this.posY = posY;
         this.vel = 5
         this.canvasWidth = canvasWidth
-        this.good = false
         this.image = new Image();
         this.image.src = 'img/Viru1s.png';
     }
